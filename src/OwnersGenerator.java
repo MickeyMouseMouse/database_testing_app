@@ -4,10 +4,10 @@ import java.util.List;
 
 public class OwnersGenerator {
     public ArrayList<Owner> generate(int quantity) {
-        ArrayList<Owner> result = new ArrayList<>();
+        final ArrayList<Owner> result = new ArrayList<>();
 
-        ArrayList<String> persons = Tools.getFileContent("resources/persons.txt");
-        ArrayList<String> driverLicenseNumbers = new ArrayList<>();
+        final ArrayList<String> persons = Tools.getFileContent("resources/persons.txt");
+        final ArrayList<String> driverLicenseNumbers = new ArrayList<>();
         for(int i = 0; i < quantity; i++) {
             // get a new driver license number
             String licenseNumber = getDriverLicenseNumber();
@@ -24,7 +24,7 @@ public class OwnersGenerator {
         return result;
     }
 
-    public static List<String> letters = Arrays.asList("Q", "W", "E", "R", "T",
+    public static final List<String> letters = Arrays.asList("Q", "W", "E", "R", "T",
             "Y", "U", "I", "O", "P", "A", "S", "D", "F", "G", "H", "J", "K",
             "L", "Z", "X", "C", "V", "B", "N", "M");
     public String getDriverLicenseNumber() {

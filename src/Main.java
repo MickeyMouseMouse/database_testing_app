@@ -4,21 +4,21 @@ import java.util.concurrent.CountDownLatch;
 
 public class Main {
     public static void start(int transactionsNumber, int isolationLevel) {
-        CountDownLatch initLatch = new CountDownLatch(3);
-        CountDownLatch beginLatch = new CountDownLatch(1);
-        CountDownLatch endLatch = new CountDownLatch(3);
+        final CountDownLatch initLatch = new CountDownLatch(3);
+        final CountDownLatch beginLatch = new CountDownLatch(1);
+        final CountDownLatch endLatch = new CountDownLatch(3);
 
-        Connection dbSelect = Tools.connect(isolationLevel);
-        Connection dbInsert = Tools.connect(isolationLevel);
-        Connection dbUpdate = Tools.connect(isolationLevel);
+        final Connection dbSelect = Tools.connect(isolationLevel);
+        final Connection dbInsert = Tools.connect(isolationLevel);
+        final Connection dbUpdate = Tools.connect(isolationLevel);
 
-        ArrayList<Owner> owners = new OwnersGenerator().generate(transactionsNumber);
+        final ArrayList<Owner> owners = new OwnersGenerator().generate(transactionsNumber);
 
-        TransactionThread selectThread = new TransactionThread(dbSelect, transactionsNumber,
+        final TransactionThread selectThread = new TransactionThread(dbSelect, transactionsNumber,
                 TransactionsEnum.SELECT, null, initLatch, beginLatch, endLatch);
-        TransactionThread insertThread = new TransactionThread(dbInsert, transactionsNumber,
+        final TransactionThread insertThread = new TransactionThread(dbInsert, transactionsNumber,
                 TransactionsEnum.INSERT, owners, initLatch, beginLatch, endLatch);
-        TransactionThread updateThread = new TransactionThread(dbUpdate, transactionsNumber,
+        final TransactionThread updateThread = new TransactionThread(dbUpdate, transactionsNumber,
                 TransactionsEnum.UPDATE, null, initLatch, beginLatch, endLatch);
 
         selectThread.start();
@@ -33,9 +33,9 @@ public class Main {
             e.printStackTrace();
         }
 
-        ArrayList<Long> resultSelect = selectThread.getTimeResult();
-        ArrayList<Long> resultInsert = insertThread.getTimeResult();
-        ArrayList<Long> resultUpdate = updateThread.getTimeResult();
+        final ArrayList<Long> resultSelect = selectThread.getTimeResult();
+        final ArrayList<Long> resultInsert = insertThread.getTimeResult();
+        final ArrayList<Long> resultUpdate = updateThread.getTimeResult();
 
         Tools.disconnect(dbSelect);
         Tools.disconnect(dbInsert);
